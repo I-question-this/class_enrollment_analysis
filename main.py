@@ -52,6 +52,19 @@ def box_plot(output_name, x_name, x_data, show):
     fig.savefig(output_name)
     plt.close()
 
+def bar_plot(output_name, x_name, y_name, y_data, tick_label, title, show):
+    fig, ax = plt.subplots()
+    ax.bar(list(range(len(y_data))), y_data, tick_label=tick_label)
+
+    ax.set_xlabel(x_name)
+    ax.set_ylabel(y_name)
+    ax.set_title(title)
+
+    if show:
+        plt.show()
+    fig.savefig(output_name)
+    plt.close()
+
 
 def parse_arguments(args=None) -> argparse.Namespace:
     """Returns the parsed arguments.
@@ -120,6 +133,36 @@ def main(data_file:str="./class_enrollment.json", show: bool=False) -> None:
                 enrollment["class information"]
              ],
              show)
+
+    # Count up number of courses
+    number_of_courses = {}
+    for course_range in range(1000,8000,1000):
+        number_of_courses[course_range] = len(list(filter(
+            lambda course: course_range <= course.number < course_range + 1000,
+            enrollment["class information"]
+            )))
+
+    bar_plot("number_of_courses_per_range.png", "Course Numbers", 
+             "Number of Courses", list(number_of_courses.values()), 
+             list(str(n) for n in number_of_courses), 
+             "Number of Courses Per Range", show)
+
+    number_of_courses_per_career = {
+            "undergrad exclusive": sum(number_of_courses[ran] for ran in 
+                                        filter(lambda ran: ran < 5000,
+                                               number_of_courses)),
+            "combined": sum(number_of_courses[ran] for ran in 
+                                        filter(lambda ran: 5000 <= ran <= 6000,
+                                               number_of_courses)),
+            "grad exclusive": sum(number_of_courses[ran] for ran in 
+                                        filter(lambda ran: ran > 6000,
+                                               number_of_courses))
+            }
+
+    bar_plot("number_of_courses_per_career.png", "Course Numbers", 
+             "Number of Courses", list(number_of_courses_per_career.values()), 
+             list(str(n) for n in number_of_courses_per_career), 
+             "Number of Courses Per Career", show)
 
     return None
 

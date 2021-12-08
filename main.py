@@ -159,8 +159,8 @@ def main(data_file:str="./class_enrollment.json", show: bool=False) -> None:
                                                number_of_courses))
             }
 
-    bar_plot("number_of_courses_per_career.png", "Course Numbers", 
-             "Number of Courses", list(number_of_courses_per_career.values()), 
+    bar_plot("number_of_courses_per_career.png", "Career", 
+             "Number of Course", list(number_of_courses_per_career.values()), 
              list(str(n) for n in number_of_courses_per_career), 
              "Number of Courses Per Career", show)
 

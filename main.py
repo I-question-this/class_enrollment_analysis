@@ -5,10 +5,12 @@ __author__="Tyler Westland"
 
 import argparse
 from dataclasses import dataclass, field
+import itertools
 import json
 import matplotlib.pyplot as plt
 import os
 import sys
+from typing import List
 
 
 @dataclass(frozen=True)
@@ -40,6 +42,60 @@ class Course:
     @property
     def enrollement_ratio(self) -> float:
         return self.enrolled / self.capacity
+
+
+@dataclass(frozen=True)
+class CourseCatalog:
+    semester_year:int
+    semester_season: str
+    courses: List[Course]
+
+    @classmethod
+    def from_dict(cls, d:dict) -> "CourseCatalog":
+        return cls(
+                int(d["semester_year"]),
+                d["semester_season"],
+                list(Course.from_dict(dc) for dc in d["class information"])
+                )
+
+    def courses_in_level(self, level: int):
+        return list(filter(
+                lambda course: level <= course.number < level + 1000,
+                self.courses
+               ))
+
+    def courses_by_level(self, min_level: int = 1000, max_level: int = 9000):
+        courses_by_level = {}
+        for level in range(min_level, max_level + 1000, 1000):
+            courses_by_level[level] = self.courses_in_level(level)
+        return courses_by_level
+
+    def courses_by_career(self):
+        by_career = {
+            "undergrad exclusive": list(itertools.chain.from_iterable(
+                self.courses_by_level(max_level=5000).values())),
+            "combined": [],
+            "grad exclusive": list(itertools.chain.from_iterable(
+                self.courses_by_level(min_level=6000).values()))
+            }
+
+        # Not all of the 5000 level courses are combined with graduate
+        # level courses, so we must filter out the ones that do.
+        undergrads_to_delete = []
+        for undergrad_course in by_career["undergrad exclusive"]:
+            matching_grad_course = list(filter(lambda course:
+                course.name == undergrad_course.name,
+                by_career["grad exclusive"]
+                ))
+            if len(matching_grad_course) > 0:
+                undergrads_to_delete.append(undergrad_course)
+                by_career["combined"].append(matching_grad_course[0])
+                by_career["grad exclusive"].remove(matching_grad_course[0])
+
+        for undergrad_course in undergrads_to_delete:
+            by_career["undergrad exclusive"].remove(undergrad_course)
+
+        return by_career
 
 def box_plot(output_name, x_name, x_data, show):
     fig, ax = plt.subplots()
@@ -109,59 +165,38 @@ def main(data_file:str="./class_enrollment.json", show: bool=False) -> None:
 
     # Read in the data
     with open(data_file) as fin:
-        enrollment = json.load(fin)
-
-    # Change each dict into a proper class
-    for i in range(len(enrollment["class information"])):
-        enrollment["class information"][i] = Course.\
-                from_dict(enrollment["class information"][i])
+        catalog = CourseCatalog.from_dict(json.load(fin))
 
     box_plot("undergrad.png", "Undergrad Enrollment", 
              [course.enrollement_ratio for course in 
                filter(lambda course: course.number < 6000, 
-                      enrollment["class information"])
+                      catalog.courses)
              ],
              show)
     box_plot("grad.png", "Grad Enrollment", 
              [course.enrollement_ratio for course in 
                filter(lambda course: course.number >= 6000, 
-                      enrollment["class information"])
+                      catalog.courses)
              ],
              show)
     box_plot("all.png", "All Enrollment", 
              [course.enrollement_ratio for course in 
-                enrollment["class information"]
+                catalog.courses
              ],
              show)
 
     # Count up number of courses
-    number_of_courses = {}
-    for course_range in range(1000,8000,1000):
-        number_of_courses[course_range] = len(list(filter(
-            lambda course: course_range <= course.number < course_range + 1000,
-            enrollment["class information"]
-            )))
+    courses_by_level = catalog.courses_by_level(max_level=7000)
+    bar_plot("number_of_courses_per_level.png", "Course Levels", 
+             "Number of Courses", 
+             list(len(level) for level in courses_by_level.values()), 
+             list(str(n) for n in courses_by_level), 
+             "Number of Courses Per Level", show)
 
-    bar_plot("number_of_courses_per_range.png", "Course Numbers", 
-             "Number of Courses", list(number_of_courses.values()), 
-             list(str(n) for n in number_of_courses), 
-             "Number of Courses Per Range", show)
-
-    number_of_courses_per_career = {
-            "undergrad exclusive": sum(number_of_courses[ran] for ran in 
-                                        filter(lambda ran: ran < 5000,
-                                               number_of_courses)),
-            "combined": sum(number_of_courses[ran] for ran in 
-                                        filter(lambda ran: 5000 <= ran <= 6000,
-                                               number_of_courses)),
-            "grad exclusive": sum(number_of_courses[ran] for ran in 
-                                        filter(lambda ran: ran > 6000,
-                                               number_of_courses))
-            }
-
+    by_career = catalog.courses_by_career()
     bar_plot("number_of_courses_per_career.png", "Career", 
-             "Number of Course", list(number_of_courses_per_career.values()), 
-             list(str(n) for n in number_of_courses_per_career), 
+             "Number of Course", list(len(courses) for courses in by_career.values()), 
+             list(str(n) for n in by_career), 
              "Number of Courses Per Career", show)
 
     return None

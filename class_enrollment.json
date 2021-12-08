@@ -1,6 +1,7 @@
 {
   "date": "2021-12-08",
-  "semester": "Spring-2022",
+  "semester_year": "2022",
+  "semester_season": "Spring",
   "class information": [
     {
       "number": "1005",
@@ -550,6 +551,17 @@
       "wait list capacity": 10,
       "wait list total": 0,
       "department": "CS",
+      "extra_number_info": ""
+    },
+    {
+      "number": "7075",
+      "name": "Principles of Modern Networking",
+      "section": 1,
+      "capacity": 97,
+      "enrolled": 95,
+      "wait list capacity": 0,
+      "wait list total": 0,
+      "department": "EECE",
       "extra_number_info": ""
     },
     {

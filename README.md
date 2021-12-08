@@ -16,7 +16,7 @@ There is high undergrad enrollment, with the median at ~83%.
 The grad enrollment is lower, with the median at ~63%, but every semester
 there are complaints that graduate courses don't get enough enrollment to
 not be cancelled.
-The overall enrolment is at about ~83%, which is because most of the
+The overall enrolment median is at about ~77%, which is because most of the
 graduate courses are actually combined courses with undergrads.
 There are little graduate exclusive courses compared to undergraduate 
   exclusive courses.

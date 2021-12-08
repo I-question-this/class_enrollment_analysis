@@ -114,6 +114,10 @@ def bar_plot(output_name, x_name, y_name, y_data, tick_label, title, show):
 
     ax.set_xlabel(x_name)
     ax.set_ylabel(y_name)
+    max_y_tick = max(y_data) + 2
+    if max_y_tick % 2 != 0:
+        max_y_tick + 1
+    ax.set_yticks(list(range(0,max_y_tick,2)))
     ax.set_title(title)
 
     if show:

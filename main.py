@@ -8,6 +8,7 @@ from dataclasses import dataclass, field
 import itertools
 import json
 import matplotlib.pyplot as plt
+import numpy as np
 import os
 import sys
 from typing import List
@@ -56,21 +57,21 @@ class CourseCatalog:
 
     def enrollment_plots(self, show: bool) -> None:
         box_plot(f"{self.semester_name}--undergrad.png",
-                 f"{self.semester_name} Undergrad Enrollment", 
+                 f"{self.semester_name} Undergrad Courses", 
                  [course.enrollement_ratio for course in 
                    filter(lambda course: course.number < 6000, 
                           self.courses)
                  ],
                  show)
         box_plot(f"{self.semester_name}--grad.png",
-                 f"{self.semester_name} Grad Enrollment", 
+                 f"{self.semester_name} Grad Courses", 
                  [course.enrollement_ratio for course in 
                    filter(lambda course: course.number >= 6000, 
                           self.courses)
                  ],
                  show)
         box_plot(f"{self.semester_name}--all.png",
-                 f"{self.semester_name} All Enrollment", 
+                 f"{self.semester_name} All Courses", 
                  [course.enrollement_ratio for course in 
                    self.courses
                  ],
@@ -138,16 +139,31 @@ class CourseCatalog:
 
         return by_career
 
+def box_plot_x_ticks(x_data) -> List[float]:
+    max_x_tick = 1.0
+    while max_x_tick < max(x_data):
+        max_x_tick += 0.2
+    return list(np.arange(0,max_x_tick+0.2,0.2))
+
 def box_plot(output_name, x_name, x_data, show):
     fig, ax = plt.subplots()
     ax.boxplot(x_data, vert=False)
 
     ax.set_title(f"{x_name}")
+    ax.set_xlabel("Enrollment Ratio in Each Course")
+    ax.set_xticks(box_plot_x_ticks(x_data))
+    ax.set_yticks([])
 
     if show:
         plt.show()
     fig.savefig(output_name)
     plt.close()
+
+def bar_plot_y_ticks(y_data) -> List[int]:
+    max_y_tick = max(y_data) + 2
+    if max_y_tick % 2 != 0:
+        max_y_tick + 1
+    return list(range(0,max_y_tick,2))
 
 def bar_plot(output_name, x_name, y_name, y_data, tick_label, title, show):
     fig, ax = plt.subplots()
@@ -155,10 +171,7 @@ def bar_plot(output_name, x_name, y_name, y_data, tick_label, title, show):
 
     ax.set_xlabel(x_name)
     ax.set_ylabel(y_name)
-    max_y_tick = max(y_data) + 2
-    if max_y_tick % 2 != 0:
-        max_y_tick + 1
-    ax.set_yticks(list(range(0,max_y_tick,2)))
+    ax.set_yticks(bar_plot_y_ticks(y_data))
     ax.set_title(title)
 
     if show:

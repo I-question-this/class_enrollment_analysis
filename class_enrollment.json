@@ -1,3 +1,550 @@
+[
+{
+  "date": "2021-12-08",
+  "semester_year": "2021",
+  "semester_season": "Fall",
+  "class information": [
+    {
+      "number": "1005",
+      "name": "Introduction to Programming for Informatics with Python and R",
+      "section": 1,
+      "capacity": 70,
+      "enrolled": 31,
+      "wait list capacity": 0,
+      "wait list total": 0,
+      "department": "CS",
+      "extra_number_info": "C"
+    },
+    {
+      "number": "1021",
+      "name": "Computer Science 1",
+      "section": 1,
+      "capacity": 68,
+      "enrolled": 67,
+      "wait list capacity": 15,
+      "wait list total": 0,
+      "department": "CS",
+      "extra_number_info": "C"
+    },
+    {
+      "number": "1021",
+      "name": "Computer Science 1",
+      "section": 2,
+      "capacity": 60,
+      "enrolled": 67,
+      "wait list capacity": 15,
+      "wait list total": 0,
+      "department": "CS",
+      "extra_number_info": "C"
+    },
+    {
+      "number": "1021",
+      "name": "Computer Science 1",
+      "section": 3,
+      "capacity": 68,
+      "enrolled": 67,
+      "wait list capacity": 15,
+      "wait list total": 0,
+      "department": "CS",
+      "extra_number_info": "C"
+    },
+    {
+      "number": "1021",
+      "name": "Computer Science 1",
+      "section": 4,
+      "capacity": 60,
+      "enrolled": 67,
+      "wait list capacity": 15,
+      "wait list total": 0,
+      "department": "CS",
+      "extra_number_info": "C"
+    },
+    {
+      "number": "1100",
+      "name": "Introduction to Computer Systems",
+      "section": 1,
+      "capacity": 200,
+      "enrolled": 175,
+      "wait list capacity": 30,
+      "wait list total": 0,
+      "department": "CS",
+      "extra_number_info": ""
+    },
+    {
+      "number": "2011",
+      "name": "Introduction to Computer Systems",
+      "section": 1,
+      "capacity": 95,
+      "enrolled": 86,
+      "wait list capacity": 0,
+      "wait list total": 0,
+      "department": "CS",
+      "extra_number_info": ""
+    },
+    {
+      "number": "2021",
+      "name": "Python Programming",
+      "section": 1,
+      "capacity": 95,
+      "enrolled": 81,
+      "wait list capacity": 0,
+      "wait list total": 0,
+      "department": "CS",
+      "extra_number_info": ""
+    },
+    {
+      "number": "2028",
+      "name": "Data Structures",
+      "section": 1,
+      "capacity": 95,
+      "enrolled": 85,
+      "wait list capacity": 0,
+      "wait list total": 0,
+      "department": "CS",
+      "extra_number_info": "C"
+    },
+    {
+      "number": "2028",
+      "name": "Data Structures",
+      "section": 2,
+      "capacity": 34,
+      "enrolled": 31,
+      "wait list capacity": 5,
+      "wait list total": 0,
+      "department": "CS",
+      "extra_number_info": "C"
+    },
+    {
+      "number": "2028",
+      "name": "Data Structures",
+      "section": 3,
+      "capacity": 32,
+      "enrolled": 21,
+      "wait list capacity": 5,
+      "wait list total": 0,
+      "department": "CS",
+      "extra_number_info": "C"
+    },
+    {
+      "number": "2028",
+      "name": "Data Structures",
+      "section": 4,
+      "capacity": 33,
+      "enrolled": 33,
+      "wait list capacity": 5,
+      "wait list total": 0,
+      "department": "CS",
+      "extra_number_info": "C"
+    },
+    {
+      "number": "2071",
+      "name": "Discrete Computational Structures",
+      "section": 1,
+      "capacity": 132,
+      "enrolled": 116,
+      "wait list capacity": 5,
+      "wait list total": 0,
+      "department": "CS",
+      "extra_number_info": ""
+    },
+    {
+      "number": "3003",
+      "name": "Programming Languages",
+      "section": 1,
+      "capacity": 90,
+      "enrolled": 83,
+      "wait list capacity": 10,
+      "wait list total": 0,
+      "department": "CS",
+      "extra_number_info": ""
+    },
+    {
+      "number": "4033",
+      "name": "Artificial Intelligence: Principles and Applications",
+      "section": 1,
+      "capacity": 100,
+      "enrolled": 95,
+      "wait list capacity": 5,
+      "wait list total": 0,
+      "department": "CS",
+      "extra_number_info": ""
+    },
+    {
+      "number": "4065",
+      "name": "Computer Networks and Networked Computing",
+      "section": 1,
+      "capacity": 90,
+      "enrolled": 60,
+      "wait list capacity": 5,
+      "wait list total": 0,
+      "department": "CS",
+      "extra_number_info": ""
+    },
+    {
+      "number": "5001",
+      "name": "Computer Science Senior Design I",
+      "section": 1,
+      "capacity": 90,
+      "enrolled": 86,
+      "wait list capacity": 0,
+      "wait list total": 0,
+      "department": "CS",
+      "extra_number_info": ""
+    },
+    {
+      "number": "5127",
+      "name": "Requirements Engineering",
+      "section": 1,
+      "capacity": 85,
+      "enrolled": 82,
+      "wait list capacity": 0,
+      "wait list total": 0,
+      "department": "CS",
+      "extra_number_info": ""
+    },
+    {
+      "number": "5130",
+      "name": "Advanced Software Engineering",
+      "section": 1,
+      "capacity": 70,
+      "enrolled": 11,
+      "wait list capacity": 0,
+      "wait list total": 0,
+      "department": "CS",
+      "extra_number_info": ""
+    },
+    {
+      "number": "5137",
+      "name": "Machine Learning",
+      "section": 1,
+      "capacity": 231,
+      "enrolled": 206,
+      "wait list capacity": 0,
+      "wait list total": 0,
+      "department": "CS",
+      "extra_number_info": ""
+    },
+    {
+      "number": "5151",
+      "name": "Database Theory",
+      "section": 1,
+      "capacity": 74,
+      "enrolled": 73,
+      "wait list capacity": 0,
+      "wait list total": 0,
+      "department": "CS",
+      "extra_number_info": ""
+    },
+    {
+      "number": "5152",
+      "name": "Intelligent Data Analysis",
+      "section": 1,
+      "capacity": 135,
+      "enrolled": 57,
+      "wait list capacity": 0,
+      "wait list total": 0,
+      "department": "CS",
+      "extra_number_info": ""
+    },
+    {
+      "number": "5154",
+      "name": "Information Retrieval",
+      "section": 1,
+      "capacity": 112,
+      "enrolled": 112,
+      "wait list capacity": 0,
+      "wait list total": 0,
+      "department": "CS",
+      "extra_number_info": ""
+    },
+    {
+      "number": "5155",
+      "name": "Cyber Defense Overview",
+      "section": 1,
+      "capacity": 80,
+      "enrolled": 51,
+      "wait list capacity": 0,
+      "wait list total": 0,
+      "department": "CS",
+      "extra_number_info": ""
+    },
+    {
+      "number": "5165",
+      "name": "Introduction to Cloud Computing",
+      "section": 1,
+      "capacity": 170,
+      "enrolled": 164,
+      "wait list capacity": 10,
+      "wait list total": 0,
+      "department": "CS",
+      "extra_number_info": ""
+    },
+    {
+      "number": "5168",
+      "name": "Parallel Computing",
+      "section": 1,
+      "capacity": 120,
+      "enrolled": 75,
+      "wait list capacity": 10,
+      "wait list total": 0,
+      "department": "CS",
+      "extra_number_info": ""
+    },
+    {
+      "number": "5170",
+      "name": "The Theory of Formal Languages and Automata",
+      "section": 1,
+      "capacity": 100,
+      "enrolled": 99,
+      "wait list capacity": 10,
+      "wait list total": 0,
+      "department": "CS",
+      "extra_number_info": ""
+    },
+    {
+      "number": "5172",
+      "name": "Network Science",
+      "section": 1,
+      "capacity": 30,
+      "enrolled": 16,
+      "wait list capacity": 10,
+      "wait list total": 0,
+      "department": "CS",
+      "extra_number_info": ""
+    },
+    {
+      "number": "6027",
+      "name": "Requirements Engineering",
+      "section": 1,
+      "capacity": 85,
+      "enrolled": 82,
+      "wait list capacity": 0,
+      "wait list total": 0,
+      "department": "CS",
+      "extra_number_info": ""
+    },
+    {
+      "number": "6130",
+      "name": "Advanced Software Engineering",
+      "section": 1,
+      "capacity": 70,
+      "enrolled": 11,
+      "wait list capacity": 0,
+      "wait list total": 0,
+      "department": "CS",
+      "extra_number_info": ""
+    },
+    {
+      "number": "6037",
+      "name": "Machine Learning",
+      "section": 1,
+      "capacity": 231,
+      "enrolled": 206,
+      "wait list capacity": 0,
+      "wait list total": 0,
+      "department": "CS",
+      "extra_number_info": ""
+    },
+    {
+      "number": "6051",
+      "name": "Database Theory",
+      "section": 1,
+      "capacity": 74,
+      "enrolled": 73,
+      "wait list capacity": 0,
+      "wait list total": 0,
+      "department": "CS",
+      "extra_number_info": ""
+    },
+    {
+      "number": "6051",
+      "name": "Database Theory",
+      "section": 2,
+      "capacity": 60,
+      "enrolled": 59,
+      "wait list capacity": 0,
+      "wait list total": 0,
+      "department": "CS",
+      "extra_number_info": ""
+    },
+    {
+      "number": "6052",
+      "name": "Intelligent Data Analysis",
+      "section": 1,
+      "capacity": 135,
+      "enrolled": 57,
+      "wait list capacity": 0,
+      "wait list total": 0,
+      "department": "CS",
+      "extra_number_info": ""
+    },
+    {
+      "number": "6054",
+      "name": "Information Retrieval",
+      "section": 1,
+      "capacity": 112,
+      "enrolled": 112,
+      "wait list capacity": 0,
+      "wait list total": 0,
+      "department": "CS",
+      "extra_number_info": ""
+    },
+    {
+      "number": "6055",
+      "name": "Cyber Defense Overview",
+      "section": 1,
+      "capacity": 80,
+      "enrolled": 51,
+      "wait list capacity": 0,
+      "wait list total": 0,
+      "department": "CS",
+      "extra_number_info": ""
+    },
+    {
+      "number": "6055",
+      "name": "Cyber Defense Overview",
+      "section": 2,
+      "capacity": 80,
+      "enrolled": 51,
+      "wait list capacity": 0,
+      "wait list total": 0,
+      "department": "CS",
+      "extra_number_info": ""
+    },
+    {
+      "number": "6058",
+      "name": "Data Security and Privacy",
+      "section": 1,
+      "capacity": 58,
+      "enrolled": 45,
+      "wait list capacity": 5,
+      "wait list total": 0,
+      "department": "CS",
+      "extra_number_info": ""
+    },
+    {
+      "number": "6065",
+      "name": "Introduction to Cloud Computing",
+      "section": 1,
+      "capacity": 170,
+      "enrolled": 164,
+      "wait list capacity": 10,
+      "wait list total": 0,
+      "department": "CS",
+      "extra_number_info": ""
+    },
+    {
+      "number": "6068",
+      "name": "Parallel Computing",
+      "section": 1,
+      "capacity": 120,
+      "enrolled": 75,
+      "wait list capacity": 10,
+      "wait list total": 0,
+      "department": "CS",
+      "extra_number_info": ""
+    },
+    {
+      "number": "6070",
+      "name": "The Theory of Formal Languages and Automata",
+      "section": 1,
+      "capacity": 100,
+      "enrolled": 99,
+      "wait list capacity": 10,
+      "wait list total": 0,
+      "department": "CS",
+      "extra_number_info": ""
+    },
+    {
+      "number": "6072",
+      "name": "Network Science",
+      "section": 1,
+      "capacity": 30,
+      "enrolled": 16,
+      "wait list capacity": 10,
+      "wait list total": 0,
+      "department": "CS",
+      "extra_number_info": ""
+    },
+    {
+      "number": "6101",
+      "name": "Introduction to Applied Artificial Intelligence and Machine Learning Tools",
+      "section": 1,
+      "capacity": 60,
+      "enrolled": 42,
+      "wait list capacity": 0,
+      "wait list total": 0,
+      "department": "CS",
+      "extra_number_info": ""
+    },
+    {
+      "number": "7001",
+      "name": "CS Seminar I",
+      "section": 1,
+      "capacity": 95,
+      "enrolled": 59,
+      "wait list capacity": 0,
+      "wait list total": 0,
+      "department": "CS",
+      "extra_number_info": ""
+    },
+    {
+      "number": "7003",
+      "name": "Biomedical Informatics Seminar",
+      "section": 1,
+      "capacity": 10,
+      "enrolled": 4,
+      "wait list capacity": 0,
+      "wait list total": 0,
+      "department": "CS",
+      "extra_number_info": ""
+    },
+    {
+      "number": "7003",
+      "name": "Biomedical Informatics Seminar",
+      "section": 1,
+      "capacity": 10,
+      "enrolled": 4,
+      "wait list capacity": 0,
+      "wait list total": 0,
+      "department": "CS",
+      "extra_number_info": ""
+    },
+    {
+      "number": "7053",
+      "name": "Intro to Medical Informatics",
+      "section": 1,
+      "capacity": 60,
+      "enrolled": 21,
+      "wait list capacity": 0,
+      "wait list total": 0,
+      "department": "CS",
+      "extra_number_info": ""
+    },
+    {
+      "number": "7081",
+      "name": "Advanced Algorithms I",
+      "section": 1,
+      "capacity": 132,
+      "enrolled": 133,
+      "wait list capacity": 0,
+      "wait list total": 0,
+      "department": "CS",
+      "extra_number_info": ""
+    },
+    {
+      "number": "7081",
+      "name": "Introduction to Functional Genomics",
+      "section": 1,
+      "capacity": 27,
+      "enrolled": 20,
+      "wait list capacity": 0,
+      "wait list total": 0,
+      "department": "CS",
+      "extra_number_info": "C"
+    }
+  ]
+},
 {
   "date": "2021-12-08",
   "semester_year": "2022",
@@ -34,7 +581,7 @@
       "wait list capacity": 5,
       "wait list total": 0,
       "department": "CS",
-      "extra_number_info": ""
+      "extra_number_info": "C"
     },
     {
       "number": "1021",
@@ -45,7 +592,7 @@
       "wait list capacity": 5,
       "wait list total": 0,
       "department": "CS",
-      "extra_number_info": ""
+      "extra_number_info": "C"
     },
     {
       "number": "1021",
@@ -56,7 +603,7 @@
       "wait list capacity": 10,
       "wait list total": 3,
       "department": "CS",
-      "extra_number_info": ""
+      "extra_number_info": "C"
     },
     {
       "number": "1021",
@@ -67,7 +614,7 @@
       "wait list capacity": 5,
       "wait list total": 1,
       "department": "CS",
-      "extra_number_info": ""
+      "extra_number_info": "C"
     },
     {
       "number": "1021",
@@ -78,7 +625,7 @@
       "wait list capacity": 5,
       "wait list total": 2,
       "department": "CS",
-      "extra_number_info": ""
+      "extra_number_info": "C"
     },
     {
       "number": "2011",
@@ -89,7 +636,7 @@
       "wait list capacity": 0,
       "wait list total": 2,
       "department": "CS",
-      "extra_number_info": ""
+      "extra_number_info": "C"
     },
     {
       "number": "2021",
@@ -599,3 +1146,4 @@
     }
   ]
 }
+]

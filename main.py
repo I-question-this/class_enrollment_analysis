@@ -50,6 +50,47 @@ class CourseCatalog:
     semester_season: str
     courses: List[Course]
 
+    @property
+    def semester_name(self) -> str:
+        return f"{self.semester_season}-{self.semester_year}"
+
+    def enrollment_plots(self, show: bool) -> None:
+        box_plot(f"{self.semester_name}--undergrad.png",
+                 f"{self.semester_name} Undergrad Enrollment", 
+                 [course.enrollement_ratio for course in 
+                   filter(lambda course: course.number < 6000, 
+                          self.courses)
+                 ],
+                 show)
+        box_plot(f"{self.semester_name}--grad.png",
+                 f"{self.semester_name} Grad Enrollment", 
+                 [course.enrollement_ratio for course in 
+                   filter(lambda course: course.number >= 6000, 
+                          self.courses)
+                 ],
+                 show)
+        box_plot(f"{self.semester_name}--all.png",
+                 f"{self.semester_name} All Enrollment", 
+                 [course.enrollement_ratio for course in 
+                   self.courses
+                 ],
+                 show)
+
+    def available_courses_plots(self, show: bool) -> None:
+        courses_by_level = self.courses_by_level(max_level=7000)
+        bar_plot(f"{self.semester_name}--number_of_courses_per_level.png", 
+                 f"{self.semester_name} Course Levels", "Number of Courses", 
+                 list(len(level) for level in courses_by_level.values()), 
+                 list(str(n) for n in courses_by_level), 
+                 "Number of Courses Per Level", show)
+
+        by_career = self.courses_by_career()
+        bar_plot(f"{self.semester_name}--number_of_courses_per_career.png", 
+                 f"{self.semester_name} Career", "Number of Course",
+                 list(len(courses) for courses in by_career.values()), 
+                 list(str(n) for n in by_career), 
+                 "Number of Courses Per Career", show)
+
     @classmethod
     def from_dict(cls, d:dict) -> "CourseCatalog":
         return cls(
@@ -168,40 +209,15 @@ def main(data_file:str="./class_enrollment.json", show: bool=False) -> None:
         raise FileNotFoundError("File not found: {}".format(input_file))
 
     # Read in the data
+    catalogs = {}
     with open(data_file) as fin:
-        catalog = CourseCatalog.from_dict(json.load(fin))
+        for raw_catalog in json.load(fin):
+            catalog = CourseCatalog.from_dict(raw_catalog)
+            catalogs[catalog.semester_name] = catalog
 
-    box_plot("undergrad.png", "Undergrad Enrollment", 
-             [course.enrollement_ratio for course in 
-               filter(lambda course: course.number < 6000, 
-                      catalog.courses)
-             ],
-             show)
-    box_plot("grad.png", "Grad Enrollment", 
-             [course.enrollement_ratio for course in 
-               filter(lambda course: course.number >= 6000, 
-                      catalog.courses)
-             ],
-             show)
-    box_plot("all.png", "All Enrollment", 
-             [course.enrollement_ratio for course in 
-                catalog.courses
-             ],
-             show)
-
-    # Count up number of courses
-    courses_by_level = catalog.courses_by_level(max_level=7000)
-    bar_plot("number_of_courses_per_level.png", "Course Levels", 
-             "Number of Courses", 
-             list(len(level) for level in courses_by_level.values()), 
-             list(str(n) for n in courses_by_level), 
-             "Number of Courses Per Level", show)
-
-    by_career = catalog.courses_by_career()
-    bar_plot("number_of_courses_per_career.png", "Career", 
-             "Number of Course", list(len(courses) for courses in by_career.values()), 
-             list(str(n) for n in by_career), 
-             "Number of Courses Per Career", show)
+    for catalog in catalogs.values():
+        catalog.enrollment_plots(show)
+        catalog.available_courses_plots(show)
 
     return None
 

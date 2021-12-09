@@ -139,28 +139,33 @@ class CourseCatalog:
 
         return by_career
 
-def box_plot_x_ticks(x_data) -> List[float]:
+def box_plot_x_ticks(max_x_data) -> List[float]:
     max_x_tick = 1.0
-    while max_x_tick < max(x_data):
+    while max_x_tick < max_x_data:
         max_x_tick += 0.2
     return list(np.arange(0,max_x_tick+0.2,0.2))
 
-def box_plot(output_name, x_name, x_data, show):
+def box_plot(output_name, title, x_data, show, labels=None):
     fig, ax = plt.subplots()
-    ax.boxplot(x_data, vert=False)
+    ax.boxplot(x_data, vert=False, labels=labels)
 
-    ax.set_title(f"{x_name}")
+    ax.set_title(title)
     ax.set_xlabel("Enrollment Ratio in Each Course")
-    ax.set_xticks(box_plot_x_ticks(x_data))
-    ax.set_yticks([])
+    if isinstance(x_data[0], list):
+        max_x_data = max(max(xd) for xd in x_data)
+    else:
+        max_x_data = max(x_data)
+    ax.set_xticks(box_plot_x_ticks(max_x_data))
+    if labels is None:
+        ax.set_yticks([])
 
     if show:
         plt.show()
     fig.savefig(output_name)
     plt.close()
 
-def bar_plot_y_ticks(y_data) -> List[int]:
-    max_y_tick = max(y_data) + 2
+def bar_plot_y_ticks(max_y_data) -> List[int]:
+    max_y_tick = max_y_data + 2
     if max_y_tick % 2 != 0:
         max_y_tick + 1
     return list(range(0,max_y_tick,2))
@@ -171,14 +176,13 @@ def bar_plot(output_name, x_name, y_name, y_data, tick_label, title, show):
 
     ax.set_xlabel(x_name)
     ax.set_ylabel(y_name)
-    ax.set_yticks(bar_plot_y_ticks(y_data))
+    ax.set_yticks(bar_plot_y_ticks(max(y_data)))
     ax.set_title(title)
 
     if show:
         plt.show()
     fig.savefig(output_name)
     plt.close()
-
 
 def parse_arguments(args=None) -> argparse.Namespace:
     """Returns the parsed arguments.
@@ -231,6 +235,51 @@ def main(data_file:str="./class_enrollment.json", show: bool=False) -> None:
     for catalog in catalogs.values():
         catalog.enrollment_plots(show)
         catalog.available_courses_plots(show)
+
+
+    box_plot(f"fall_vs_spring--undergrad.png",
+             f"Fall vs Spring -- Undergrad Courses", 
+             [ 
+                 [course.enrollement_ratio for course in 
+                   filter(lambda course: course.number < 6000, 
+                          catalogs["Fall-2021"].courses)
+                 ],
+                 [course.enrollement_ratio for course in 
+                   filter(lambda course: course.number < 6000, 
+                          catalogs["Spring-2022"].courses)
+                 ]
+             ],
+             show,
+             labels=["Fall", "Spring"]
+             )
+    box_plot(f"fall_vs_spring--grad.png",
+             f"Fall vs Spring -- Grad Courses", 
+             [
+                 [course.enrollement_ratio for course in 
+                   filter(lambda course: course.number >= 6000, 
+                          catalogs["Fall-2021"].courses)
+                 ],
+                 [course.enrollement_ratio for course in 
+                   filter(lambda course: course.number >= 6000, 
+                          catalogs["Spring-2022"].courses)
+                 ]
+             ],
+             show,
+             labels=["Fall", "Spring"]
+             )
+    box_plot(f"fall_vs_spring--all.png",
+             f"Fall vs Spring -- All Courses", 
+             [
+                 [course.enrollement_ratio for course in 
+                   catalogs["Fall-2021"].courses
+                 ],
+                 [course.enrollement_ratio for course in 
+                   catalogs["Spring-2022"].courses
+                 ]
+             ],
+             show,
+             labels=["Fall", "Spring"]
+             )
 
     return None
 

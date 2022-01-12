@@ -4,6 +4,7 @@
 __author__="Tyler Westland"
 
 import argparse
+import datetime
 from dataclasses import dataclass, field
 import itertools
 import json
@@ -50,28 +51,35 @@ class CourseCatalog:
     semester_year:int
     semester_season: str
     courses: List[Course]
+    date_collected: datetime.date
 
     @property
     def semester_name(self) -> str:
         return f"{self.semester_season}-{self.semester_year}"
 
     def enrollment_plots(self, show: bool) -> None:
-        box_plot(f"{self.semester_name}--undergrad.png",
-                 f"{self.semester_name} Undergrad Courses", 
+        box_plot(f"{self.semester_name}--undergrad--collected_on_"
+                     f"{self.date_collected}.png",
+                 f"{self.semester_name} Undergrad Courses\n" 
+                    f"Collected on {self.date_collected}",
                  [course.enrollement_ratio for course in 
                    filter(lambda course: course.number < 6000, 
                           self.courses)
                  ],
                  show)
-        box_plot(f"{self.semester_name}--grad.png",
-                 f"{self.semester_name} Grad Courses", 
+        box_plot(f"{self.semester_name}--grad--collected_on_"
+                     f"{self.date_collected}.png",
+                 f"{self.semester_name} Grad Courses\n"
+                    f"Collected on {self.date_collected}",
                  [course.enrollement_ratio for course in 
                    filter(lambda course: course.number >= 6000, 
                           self.courses)
                  ],
                  show)
-        box_plot(f"{self.semester_name}--all.png",
-                 f"{self.semester_name} All Courses", 
+        box_plot(f"{self.semester_name}--all--collected_on_"
+                     f"{self.date_collected}.png",
+                 f"{self.semester_name} All Courses\n"
+                    f"Collected on {self.date_collected}",
                  [course.enrollement_ratio for course in 
                    self.courses
                  ],
@@ -79,15 +87,21 @@ class CourseCatalog:
 
     def available_courses_plots(self, show: bool) -> None:
         courses_by_level = self.courses_by_level(max_level=7000)
-        bar_plot(f"{self.semester_name}--number_of_courses_per_level.png", 
-                 f"{self.semester_name} Course Levels", "Number of Courses", 
+        bar_plot(f"{self.semester_name}--number_of_courses_per_level"
+                     f"--collected_on_{self.date_collected}.png", 
+                 f"{self.semester_name} Course Levels\n"
+                    f"Collected on {self.date_collected}",
+                 "Number of Courses", 
                  list(len(level) for level in courses_by_level.values()), 
                  list(str(n) for n in courses_by_level), 
                  "Number of Courses Per Level", show)
 
         by_career = self.courses_by_career()
-        bar_plot(f"{self.semester_name}--number_of_courses_per_career.png", 
-                 f"{self.semester_name} Career", "Number of Course",
+        bar_plot(f"{self.semester_name}--number_of_courses_per_career"
+                     f"--collected_on_{self.date_collected}.png", 
+                 f"{self.semester_name} Career\n"
+                    f"Collected on {self.date_collected}",
+                 "Number of Course",
                  list(len(courses) for courses in by_career.values()), 
                  list(str(n) for n in by_career), 
                  "Number of Courses Per Career", show)
@@ -97,7 +111,8 @@ class CourseCatalog:
         return cls(
                 int(d["semester_year"]),
                 d["semester_season"],
-                list(Course.from_dict(dc) for dc in d["class information"])
+                list(Course.from_dict(dc) for dc in d["class information"]),
+                datetime.date.fromisoformat(d["date_collected"])
                 )
 
     def courses_in_level(self, level: int):
@@ -226,16 +241,18 @@ def main(data_file:str="./class_enrollment.json", show: bool=False) -> None:
         raise FileNotFoundError("File not found: {}".format(input_file))
 
     # Read in the data
-    catalogs = {}
+    catalogs = []
     with open(data_file) as fin:
         for raw_catalog in json.load(fin):
             catalog = CourseCatalog.from_dict(raw_catalog)
-            catalogs[catalog.semester_name] = catalog
+            catalogs.append(catalog)
 
-    for catalog in catalogs.values():
+    for catalog in catalogs:
         catalog.enrollment_plots(show)
         catalog.available_courses_plots(show)
 
+    print("NOT COMPLETE")
+    return None
 
     box_plot(f"fall_vs_spring--undergrad.png",
              f"Fall vs Spring -- Undergrad Courses", 

@@ -58,22 +58,28 @@ class CourseCatalog:
         return f"{self.semester_season}-{self.semester_year}"
 
     def enrollment_plots(self, show: bool) -> None:
-        box_plot(f"{self.semester_name}--undergrad--collected_on_"
+        box_plot(f"{self.semester_name}--undergrad_exclusive--collected_on_"
                      f"{self.date_collected}.png",
-                 f"{self.semester_name} Undergrad Courses\n" 
+                 f"{self.semester_name} Undergrad Exclusive Courses\n" 
                     f"Collected on {self.date_collected}",
                  [course.enrollement_ratio for course in 
-                   filter(lambda course: course.number < 6000, 
-                          self.courses)
+                     self.courses_by_career()["undergrad exclusive"]
                  ],
                  show)
-        box_plot(f"{self.semester_name}--grad--collected_on_"
+        box_plot(f"{self.semester_name}--grad_exclusive--collected_on_"
                      f"{self.date_collected}.png",
                  f"{self.semester_name} Grad Courses\n"
                     f"Collected on {self.date_collected}",
                  [course.enrollement_ratio for course in 
-                   filter(lambda course: course.number >= 6000, 
-                          self.courses)
+                     self.courses_by_career()["grad exclusive"]
+                 ],
+                 show)
+        box_plot(f"{self.semester_name}--combined--collected_on_"
+                     f"{self.date_collected}.png",
+                 f"{self.semester_name} Combined Grad/Undergrad Courses\n"
+                    f"Collected on {self.date_collected}",
+                 [course.enrollement_ratio for course in 
+                     self.courses_by_career()["combined"]
                  ],
                  show)
         box_plot(f"{self.semester_name}--all--collected_on_"
@@ -165,7 +171,7 @@ def box_plot(output_name, title, x_data, show, labels=None):
     ax.boxplot(x_data, vert=False, labels=labels)
 
     ax.set_title(title)
-    ax.set_xlabel("Enrollment Ratio in Each Course")
+    ax.set_xlabel("Enrollment Ratio of Each Course")
     if isinstance(x_data[0], list):
         max_x_data = max(max(xd) for xd in x_data)
     else:
@@ -176,6 +182,8 @@ def box_plot(output_name, title, x_data, show, labels=None):
 
     if show:
         plt.show()
+
+    plt.tight_layout()
     fig.savefig(output_name)
     plt.close()
 
@@ -196,6 +204,8 @@ def bar_plot(output_name, x_name, y_name, y_data, tick_label, title, show):
 
     if show:
         plt.show()
+
+    plt.tight_layout()
     fig.savefig(output_name)
     plt.close()
 
@@ -242,60 +252,85 @@ def main(data_file:str="./class_enrollment.json", show: bool=False) -> None:
 
     # Read in the data
     catalogs = []
+    fall_2021_12_08 = None
+    spring_2021_12_08 = None
+    spring_2022_01_11 = None
     with open(data_file) as fin:
         for raw_catalog in json.load(fin):
             catalog = CourseCatalog.from_dict(raw_catalog)
             catalogs.append(catalog)
+            if catalog.semester_season == "Fall":
+                fall_2021_12_08 = catalog
+            elif catalog.date_collected == datetime.date.fromisoformat("2021-12-08"):
+                spring_2021_12_08 = catalog
+            else:
+                spring_2022_01_11 = catalog
 
     for catalog in catalogs:
+        continue
         catalog.enrollment_plots(show)
         catalog.available_courses_plots(show)
 
-    print("NOT COMPLETE")
-    return None
-
+    data = []
     box_plot(f"fall_vs_spring--undergrad.png",
              f"Fall vs Spring -- Undergrad Courses", 
              [ 
                  [course.enrollement_ratio for course in 
-                   filter(lambda course: course.number < 6000, 
-                          catalogs["Fall-2021"].courses)
-                 ],
+                     fall_2021_12_08.courses_by_career()["undergrad exclusive"]],
                  [course.enrollement_ratio for course in 
-                   filter(lambda course: course.number < 6000, 
-                          catalogs["Spring-2022"].courses)
-                 ]
+                     spring_2021_12_08.courses_by_career()["undergrad exclusive"]],
+                 [course.enrollement_ratio for course in 
+                     spring_2022_01_11.courses_by_career()["undergrad exclusive"]]
              ],
              show,
-             labels=["Fall", "Spring"]
+             labels=["Fall 2021\nCollected 12-08",
+                     "Spring 2022\nCollected 12-08", 
+                     "Spring 2022\nCollected 01-11"]
              )
     box_plot(f"fall_vs_spring--grad.png",
              f"Fall vs Spring -- Grad Courses", 
              [
                  [course.enrollement_ratio for course in 
-                   filter(lambda course: course.number >= 6000, 
-                          catalogs["Fall-2021"].courses)
-                 ],
+                     fall_2021_12_08.courses_by_career()["grad exclusive"]],
                  [course.enrollement_ratio for course in 
-                   filter(lambda course: course.number >= 6000, 
-                          catalogs["Spring-2022"].courses)
-                 ]
+                     spring_2021_12_08.courses_by_career()["grad exclusive"]],
+                 [course.enrollement_ratio for course in 
+                     spring_2022_01_11.courses_by_career()["grad exclusive"]]
              ],
              show,
-             labels=["Fall", "Spring"]
+             labels=["Fall 2021\nCollected 12-08",
+                     "Spring 2022\nCollected 12-08", 
+                     "Spring 2022\nCollected 01-11"]
+             )
+    box_plot(f"fall_vs_spring--combined.png",
+             f"Fall vs Spring -- Combined Grad/Undergrad Courses", 
+             [
+                 [course.enrollement_ratio for course in 
+                     fall_2021_12_08.courses_by_career()["combined"]],
+                 [course.enrollement_ratio for course in 
+                     spring_2021_12_08.courses_by_career()["combined"]],
+                 [course.enrollement_ratio for course in 
+                     spring_2022_01_11.courses_by_career()["combined"]]
+             ],
+             show,
+             labels=["Fall 2021\nCollected 12-08",
+                     "Spring 2022\nCollected 12-08", 
+                     "Spring 2022\nCollected 01-11"]
              )
     box_plot(f"fall_vs_spring--all.png",
              f"Fall vs Spring -- All Courses", 
              [
                  [course.enrollement_ratio for course in 
-                   catalogs["Fall-2021"].courses
-                 ],
+                     fall_2021_12_08.courses],
                  [course.enrollement_ratio for course in 
-                   catalogs["Spring-2022"].courses
-                 ]
+                     spring_2021_12_08.courses],
+                 [course.enrollement_ratio for course in 
+                     spring_2022_01_11.courses]
              ],
              show,
-             labels=["Fall", "Spring"]
+             labels=["Fall 2021\nCollected 12-08",
+                     "Spring 2022\nCollected 12-08", 
+                     "Spring 2022\nCollected 01-11"]
              )
 
     return None
